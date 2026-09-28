@@ -102,7 +102,7 @@ deux fonctionnent avec l'hébergeur ci-dessous) → **ne cochez aucune case**
 GitHub affiche alors les commandes ; depuis ce dossier :
 
 ```bash
-git remote add origin https://github.com/<votre-compte>/yobbalema.git
+git remote add origin https://github.com/abdoukhadrediarra/yobbalema.git
 git push -u origin main
 ```
 
