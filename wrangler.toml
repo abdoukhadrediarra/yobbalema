@@ -1,0 +1,7 @@
+# Configuration explicite de Cloudflare Pages : sa présence désactive la
+# détection automatique du framework, qui tente sinon de configurer Angular
+# via son adaptateur natif (réservé à Angular >= 19 — nous sommes en 18.2,
+# et ce projet est un simple site statique, sans besoin de cet adaptateur).
+name = "yobbalema"
+pages_build_output_dir = "dist/yobbalema-web/browser"
+compatibility_date = "2024-09-23"
