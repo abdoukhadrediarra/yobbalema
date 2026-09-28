@@ -1,0 +1,249 @@
+<!-- ============================= HERO ============================= -->
+<section class="hero section--ink">
+  <div class="container hero__grid">
+    <div class="hero__copy">
+      <h1 class="hero__title">
+        Voyagez, livrez, et avancez ensemble, partout au Sénégal.
+      </h1>
+      <p class="hero__lede">
+        Trajets interurbains, courses en ville, bus TATA en direct et livraison —
+        quatre services, une seule application, et un principe qui nous distingue&nbsp;:
+        vous pouvez proposer votre prix.
+      </p>
+
+      <div class="hero__cta">
+        <a routerLink="/inscription" class="btn btn--gold btn--lg">
+          <i class="bi bi-person-plus"></i> Créer un compte
+        </a>
+        <a href="#modules" class="btn btn--outline-on-ink btn--lg">
+          Découvrir les services
+        </a>
+      </div>
+
+      <ul class="hero__facts">
+        <li><i class="bi bi-percent"></i> 5&nbsp;% de commission, prélevée au chauffeur, jamais au client</li>
+        <li><i class="bi bi-wallet2"></i> Wave, Orange Money ou espèces</li>
+        <li><i class="bi bi-geo-alt"></i> Interurbain, ville, bus et livraison réunis</li>
+      </ul>
+    </div>
+
+    <div class="hero__visual" aria-hidden="true">
+      <div class="ride-card">
+        <div class="ride-card__route">
+          <div class="ride-card__stop">
+            <span class="ride-card__dot ride-card__dot--start"></span>
+            <span>Plateau</span>
+          </div>
+          <div class="ride-card__line"></div>
+          <div class="ride-card__stop">
+            <span class="ride-card__dot ride-card__dot--end"></span>
+            <span>Ouakam</span>
+          </div>
+        </div>
+        <div class="ride-card__meta">
+          <span><i class="bi bi-signpost"></i> 8,4 km</span>
+          <span><i class="bi bi-clock"></i> ~19 min</span>
+        </div>
+
+        <div class="waxale-chip" [attr.data-etape]="etapeWaxale()">
+          @switch (etapeWaxale()) {
+            @case ('proposition') {
+              <i class="bi bi-cash-coin"></i>
+              <span>Vous proposez <strong>1&nbsp;500 FCFA</strong></span>
+            }
+            @case ('recherche') {
+              <i class="bi bi-broadcast"></i>
+              <span>Recherche d'un chauffeur à proximité…</span>
+            }
+            @case ('accepte') {
+              <i class="bi bi-check-circle-fill"></i>
+              <span><strong>Moussa</strong> a accepté · arrive dans 3 min</span>
+            }
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================= MODULES ============================= -->
+<section class="section" id="modules">
+  <div class="container">
+    <div class="section-head">
+      <h2>Quatre services, pensés pour la route sénégalaise</h2>
+      <p class="lede">
+        Que vous partiez d'une ville à l'autre, traversiez Dakar, cherchiez votre bus
+        ou attendiez un colis, Yobbalema s'occupe du trajet.
+      </p>
+    </div>
+
+    <div class="module-grid">
+      @for (m of modules; track m.titre) {
+        <article class="module-card" [attr.data-accent]="m.accent">
+          <span class="module-card__icon"><i class="bi" [class]="m.icon"></i></span>
+          <h3>{{ m.titre }}</h3>
+          <p>{{ m.description }}</p>
+        </article>
+      }
+    </div>
+  </div>
+</section>
+
+<!-- ============================= COMMENT CA MARCHE ============================= -->
+<section class="section section--raised">
+  <div class="container">
+    <div class="section-head">
+      <h2>Comment ça marche</h2>
+      <p class="lede">Quatre étapes, du besoin à l'arrivée.</p>
+    </div>
+
+    <ol class="steps">
+      @for (e of etapes; track e.titre; let i = $index) {
+        <li class="steps__item">
+          <div class="steps__number">{{ i + 1 }}</div>
+          <i class="bi steps__icon" [class]="e.icon"></i>
+          <h3>{{ e.titre }}</h3>
+          <p>{{ e.description }}</p>
+        </li>
+      }
+    </ol>
+  </div>
+</section>
+
+<!-- ============================= WAXALE ============================= -->
+<section class="section" id="waxale">
+  <div class="container waxale-grid">
+    <div class="waxale-panel" aria-hidden="true">
+      <div class="waxale-panel__row waxale-panel__row--them">
+        <span class="waxale-panel__label"><i class="bi bi-lock-fill"></i> Ailleurs</span>
+        <span class="waxale-panel__price">Prix imposé, à prendre ou à laisser</span>
+      </div>
+      <div class="waxale-panel__row waxale-panel__row--us">
+        <span class="waxale-panel__label"><i class="bi bi-chat-square-text-fill"></i> Sur Yobbalema</span>
+        <span class="waxale-panel__price">Vous proposez, un chauffeur accepte</span>
+      </div>
+    </div>
+
+    <div class="waxale-copy">
+      <span class="eyebrow"><i class="bi bi-stars"></i> Ce qui nous distingue</span>
+      <h2>Le waxalé&nbsp;: la négociation fait partie du voyage</h2>
+      <p class="lede">
+        Ici, on négocie — c'est une habitude, pas un défaut. Sur une course à la demande,
+        vous pouvez accepter le tarif affiché ou proposer votre propre prix. Votre offre
+        part aux chauffeurs disponibles autour de vous&nbsp;; le premier à l'accepter
+        récupère la course, et les autres sont aussitôt prévenus qu'elle n'est plus
+        disponible.
+      </p>
+      <ul class="check-list">
+        <li><i class="bi bi-check-lg"></i> Vous gardez la main sur votre budget de transport</li>
+        <li><i class="bi bi-check-lg"></i> Le chauffeur voit votre offre avant de valider</li>
+        <li><i class="bi bi-check-lg"></i> Le chauffeur le plus proche est toujours prioritaire, pour que chacun ait sa chance</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ============================= TARIFS ============================= -->
+<section class="section section--raised" id="tarifs">
+  <div class="container">
+    <div class="section-head">
+      <h2>Trois offres, un prix pour chaque besoin</h2>
+      <p class="lede">Le tarif de base est fixé au kilomètre ; vous pouvez toujours faire une offre différente via le waxalé.</p>
+    </div>
+
+    <div class="pricing-grid">
+      @for (o of offres; track o.nom) {
+        <article class="pricing-card" [class.pricing-card--highlight]="o.mise_en_avant">
+          @if (o.mise_en_avant) {
+            <span class="pricing-card__flag">La plus choisie</span>
+          }
+          <span class="pricing-card__icon"><i class="bi" [class]="o.icon"></i></span>
+          <h3>Yobbalema {{ o.nom }}</h3>
+          <p class="pricing-card__price">{{ o.tarif }}</p>
+          <p>{{ o.description }}</p>
+          <ul>
+            @for (pt of o.points; track pt) {
+              <li><i class="bi bi-check-lg"></i> {{ pt }}</li>
+            }
+          </ul>
+        </article>
+      }
+    </div>
+  </div>
+</section>
+
+<!-- ============================= BUS TATA ============================= -->
+<section class="section" id="bus">
+  <div class="container bus-grid">
+    <div class="bus-copy">
+      <span class="eyebrow" style="color: var(--color-teal-deep)"><i class="bi bi-gift"></i> Service gratuit</span>
+      <h2>Ne ratez plus jamais votre bus TATA</h2>
+      <p class="lede">
+        Le plus grand problème du transport en commun au Sénégal&nbsp;: on ne sait jamais
+        quand le bus arrive. Les receveurs partagent leur position en direct depuis
+        l'application ; vous voyez les bus qui passent sur votre trajet et leur temps
+        d'arrivée, pour décider en un coup d'œil de sortir ou de patienter.
+      </p>
+      <a routerLink="/inscription" class="btn btn--outline">
+        <i class="bi bi-bus-front"></i> Déclarer une ligne de bus
+      </a>
+    </div>
+
+    <div class="bus-visual" aria-hidden="true">
+      <div class="bus-visual__line">
+        <i class="bi bi-geo-alt-fill bus-visual__you"></i>
+        <i class="bi bi-bus-front-fill bus-visual__bus"></i>
+      </div>
+      <div class="bus-visual__card">
+        <strong>Ligne 12 — Liberté 6 → Petersen</strong>
+        <span><i class="bi bi-clock-history"></i> Prochain bus dans 4 min</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================= CHAUFFEURS ============================= -->
+<section class="section section--raised" id="chauffeurs">
+  <div class="container">
+    <div class="section-head">
+      <h2>Vos trajets valent quelque chose. Rentabilisez-les.</h2>
+      <p class="lede">Chauffeur particulier, professionnel, receveur de bus ou livreur : votre place vous attend.</p>
+    </div>
+
+    <div class="driver-grid">
+      <div class="driver-card">
+        <i class="bi bi-cash-stack"></i>
+        <h3>95&nbsp;% pour vous</h3>
+        <p>La commission de la plateforme est de 5&nbsp;%, jamais plus — quel que soit le moyen de paiement.</p>
+      </div>
+      <div class="driver-card">
+        <i class="bi bi-sliders"></i>
+        <h3>Votre tarif, vos horaires</h3>
+        <p>Choisissez votre prix au kilomètre dans la fourchette de votre catégorie, et roulez quand vous le souhaitez.</p>
+      </div>
+      <div class="driver-card">
+        <i class="bi bi-shield-check"></i>
+        <h3>Des passagers vérifiés</h3>
+        <p>Identité, permis et véhicule sont contrôlés avant toute mise en relation.</p>
+      </div>
+    </div>
+
+    <div class="driver-cta">
+      <a routerLink="/inscription" class="btn btn--gold btn--lg">
+        <i class="bi bi-steering-wheel"></i> Devenir chauffeur partenaire
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ============================= CTA FINAL ============================= -->
+<section class="section cta-final section--ink">
+  <div class="container cta-final__inner">
+    <h2>Prêt à prendre la route avec Yobbalema&nbsp;?</h2>
+    <p class="lede">Créez votre compte en quelques minutes — comme passager, chauffeur, receveur de bus ou commerçant partenaire.</p>
+    <div class="hero__cta">
+      <a routerLink="/inscription" class="btn btn--gold btn--lg"><i class="bi bi-arrow-right-circle"></i> Créer mon compte</a>
+      <a routerLink="/connexion" class="btn btn--outline-on-ink btn--lg">J'ai déjà un compte</a>
+    </div>
+  </div>
+</section>

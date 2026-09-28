@@ -1,0 +1,3 @@
+# Renvoie toutes les routes vers index.html : nécessaire pour le routage Angular
+# (Netlify et Cloudflare Pages lisent ce fichier automatiquement).
+/*  /index.html  200

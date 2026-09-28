@@ -1,0 +1,46 @@
+<header class="nav">
+  <div class="nav__bar container">
+    <a routerLink="/" class="nav__brand" (click)="closeMenu()">
+      <span class="nav__brand-mark">Y</span>
+      <span class="nav__brand-word">Yobbalema</span>
+    </a>
+
+    <nav class="nav__links" [class.nav__links--open]="menuOpen()">
+      @if (supabase.currentUser()) {
+        <a routerLink="/trajets" routerLinkActive="nav__active" (click)="closeMenu()">Trajets</a>
+        <a routerLink="/courses" routerLinkActive="nav__active" (click)="closeMenu()">Courses</a>
+        <a routerLink="/bus" routerLinkActive="nav__active" [routerLinkActiveOptions]="{ exact: true }" (click)="closeMenu()">Bus</a>
+        <a routerLink="/livraisons" routerLinkActive="nav__active" (click)="closeMenu()">Livraison</a>
+        @if (admin.isAdmin()) { <a routerLink="/admin" routerLinkActive="nav__active" class="nav__pro" (click)="closeMenu()"><i class="bi bi-shield-lock-fill"></i> Admin</a> }
+        @switch (supabase.currentProfile()?.role) {
+          @case ('chauffeur') { <a routerLink="/chauffeur/missions" routerLinkActive="nav__active" class="nav__pro" (click)="closeMenu()"><i class="bi bi-lightning-charge-fill"></i> Chauffeur</a> }
+          @case ('receveur_bus') { <a routerLink="/bus/receveur" routerLinkActive="nav__active" class="nav__pro" (click)="closeMenu()"><i class="bi bi-broadcast"></i> Receveur</a> }
+          @case ('commercant') { <a routerLink="/commerce" routerLinkActive="nav__active" class="nav__pro" (click)="closeMenu()"><i class="bi bi-shop"></i> Commerce</a> }
+        }
+      } @else {
+        <a routerLink="/" fragment="modules" (click)="closeMenu()">Nos services</a>
+        <a routerLink="/" fragment="waxale" (click)="closeMenu()">Le waxalé</a>
+        <a routerLink="/" fragment="tarifs" (click)="closeMenu()">Tarifs</a>
+        <a routerLink="/bus" (click)="closeMenu()">Bus en direct</a>
+        <a routerLink="/" fragment="chauffeurs" (click)="closeMenu()">Devenir chauffeur</a>
+      }
+
+      <div class="nav__auth">
+        @if (supabase.currentUser()) {
+          <app-notification-bell />
+          <a routerLink="/tableau-de-bord" class="btn btn--outline" (click)="closeMenu()">
+            <i class="bi bi-person-circle"></i> Mon espace
+          </a>
+          <button class="btn btn--ink" (click)="logout()">Déconnexion</button>
+        } @else {
+          <a routerLink="/connexion" class="btn btn--outline" (click)="closeMenu()">Connexion</a>
+          <a routerLink="/inscription" class="btn btn--gold" (click)="closeMenu()">Créer un compte</a>
+        }
+      </div>
+    </nav>
+
+    <button class="nav__toggle" (click)="toggleMenu()" [attr.aria-expanded]="menuOpen()" aria-label="Ouvrir le menu">
+      <i class="bi" [class.bi-list]="!menuOpen()" [class.bi-x-lg]="menuOpen()"></i>
+    </button>
+  </div>
+</header>

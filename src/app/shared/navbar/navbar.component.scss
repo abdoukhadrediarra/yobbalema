@@ -1,0 +1,101 @@
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  background: rgba(251, 245, 235, 0.88);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--color-paper-line);
+}
+
+.nav__bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  padding-block: 1rem;
+}
+
+.nav__brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.3rem;
+  color: var(--color-ink);
+  flex-shrink: 0;
+}
+.nav__brand-mark {
+  display: grid;
+  place-items: center;
+  width: 2.1rem;
+  height: 2.1rem;
+  border-radius: var(--radius-sm);
+  background: var(--color-ink);
+  color: var(--color-gold);
+  font-family: var(--font-display);
+}
+
+.nav__links {
+  display: flex;
+  align-items: center;
+  gap: 1.9rem;
+  font-weight: 600;
+  font-size: var(--text-sm);
+}
+.nav__links a:not(.btn) {
+  color: var(--color-text-soft);
+  transition: color 0.15s ease;
+}
+.nav__links a:not(.btn):hover { color: var(--color-ink); }
+.nav__links a.nav__active:not(.btn) { color: var(--color-ink); box-shadow: 0 2px 0 var(--color-gold); }
+.nav__pro { color: var(--color-teal-deep) !important; }
+.nav__pro i { color: var(--color-teal); }
+
+.nav__auth {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  margin-left: 0.6rem;
+}
+
+.nav__toggle {
+  display: none;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  color: var(--color-ink);
+  cursor: pointer;
+}
+
+@media (max-width: 900px) {
+  .nav__toggle { display: block; }
+
+  .nav__links {
+    position: fixed;
+    inset: 4.4rem 0 0 0;
+    background: var(--color-paper);
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.4rem;
+    padding: 2rem 1.5rem;
+    transform: translateY(-8px);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.18s ease, transform 0.18s ease;
+    overflow-y: auto;
+  }
+  .nav__links--open {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+  .nav__auth {
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+    margin-left: 0;
+    margin-top: 0.5rem;
+  }
+  .nav__auth .btn { width: 100%; }
+}

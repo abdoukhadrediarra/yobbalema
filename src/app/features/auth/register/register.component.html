@@ -1,0 +1,74 @@
+<app-auth-layout titre="Créer votre compte" sousTitre="Passager, chauffeur, receveur de bus ou commerçant : commencez ici.">
+
+  @if (done()) {
+    <div class="badge badge--teal" style="padding: 1em 1.2em; display: flex; gap: 0.6em; align-items: flex-start;">
+      <i class="bi bi-envelope-check" style="font-size: 1.3em;"></i>
+      <span>Un e-mail de confirmation vient de vous être envoyé. Ouvrez-le pour activer votre compte.</span>
+    </div>
+    <p class="auth__switch">
+      <a routerLink="/connexion">Retour à la connexion</a>
+    </p>
+  } @else {
+    <form (ngSubmit)="onSubmit()" #form="ngForm">
+      <div class="role-picker" role="radiogroup" aria-label="Vous êtes">
+        <input type="radio" id="role-client" name="role" value="client" [(ngModel)]="role">
+        <label for="role-client"><i class="bi bi-person"></i> Passager</label>
+
+        <input type="radio" id="role-chauffeur" name="role" value="chauffeur" [(ngModel)]="role">
+        <label for="role-chauffeur"><i class="bi bi-steering-wheel"></i> Chauffeur</label>
+
+        <input type="radio" id="role-receveur" name="role" value="receveur_bus" [(ngModel)]="role">
+        <label for="role-receveur"><i class="bi bi-bus-front"></i> Receveur de bus</label>
+
+        <input type="radio" id="role-commercant" name="role" value="commercant" [(ngModel)]="role">
+        <label for="role-commercant"><i class="bi bi-shop"></i> Commerçant</label>
+      </div>
+
+      <div class="field">
+        <label for="prenom">Prénom</label>
+        <input id="prenom" name="prenom" type="text" required [(ngModel)]="prenom" placeholder="Aïssatou" />
+      </div>
+
+      <div class="field">
+        <label for="nom">Nom</label>
+        <input id="nom" name="nom" type="text" required [(ngModel)]="nom" placeholder="Diop" />
+      </div>
+
+      <div class="field">
+        <label for="telephone">Téléphone</label>
+        <input id="telephone" name="telephone" type="tel" required [(ngModel)]="telephone" placeholder="+221 77 000 00 00" />
+      </div>
+
+      <div class="field">
+        <label for="email">Adresse e-mail</label>
+        <input id="email" name="email" type="email" required autocomplete="email"
+               [(ngModel)]="email" placeholder="vous@exemple.com" />
+      </div>
+
+      <div class="field">
+        <label for="password">Mot de passe</label>
+        <input id="password" name="password" type="password" required minlength="6" autocomplete="new-password"
+               [(ngModel)]="password" placeholder="6 caractères minimum" />
+      </div>
+
+      @if (errorMessage()) {
+        <p class="field-error"><i class="bi bi-exclamation-circle"></i> {{ errorMessage() }}</p>
+        @if (technicalDetail()) {
+          <p class="field-error" style="opacity:.8"><small>Détail : {{ technicalDetail() }}</small></p>
+        }
+      }
+
+      <button type="submit" class="btn btn--gold btn--block btn--lg" [disabled]="loading() || form.invalid">
+        @if (loading()) {
+          <span>Création du compte…</span>
+        } @else {
+          <span><i class="bi bi-person-plus"></i> Créer mon compte</span>
+        }
+      </button>
+    </form>
+
+    <p class="auth__switch">
+      Déjà inscrit&nbsp;? <a routerLink="/connexion">Se connecter</a>
+    </p>
+  }
+</app-auth-layout>

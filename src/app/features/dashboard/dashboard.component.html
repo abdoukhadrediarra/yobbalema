@@ -1,0 +1,112 @@
+<section class="section dash">
+  <div class="container">
+    <div class="dash__head">
+      <div>
+        <span class="badge badge--gold"><i class="bi bi-person-badge"></i> {{ libelleRole() }}</span>
+        <h1>Bonjour{{ prenom() ? ', ' + prenom() : '' }}</h1>
+        <p class="lede">Votre espace Yobbalema — retrouvez ici vos trajets, courses et livraisons.</p>
+      </div>
+
+      @if (statutVerif() !== 'verifie') {
+        <a routerLink="/profil" class="dash__alert dash__alert--link">
+          <i class="bi bi-shield-exclamation"></i>
+          <div>
+            <strong>Vérification en attente</strong>
+            <p>Ajoutez votre pièce d'identité pour débloquer toutes les fonctionnalités.</p>
+          </div>
+        </a>
+      }
+    </div>
+
+    @if (suspendu()) {
+      <div class="alert alert--error" style="margin-bottom:1.5rem"><i class="bi bi-slash-circle"></i>
+        <p><strong>Compte suspendu temporairement</strong> jusqu'au {{ suspenduJusqua() }} (UTC), en raison d'annulations ou de désistements répétés. Vous ne pouvez pas passer de nouvelle commande ni accepter de mission d'ici là.</p></div>
+    }
+
+    <div class="dash-grid">
+      <a class="dash-card" routerLink="/trajets">
+        <i class="bi bi-signpost-split"></i>
+        <h3>Trajets interurbains</h3>
+        <p>Rechercher un trajet entre deux villes et réserver votre place.</p>
+        <span class="dash-card__go">Ouvrir <i class="bi bi-arrow-right"></i></span>
+      </a>
+
+      <a class="dash-card" routerLink="/courses">
+        <i class="bi bi-car-front"></i>
+        <h3>Course à la demande</h3>
+        <p>Commander une course en ville, avec ou sans waxalé.</p>
+        <span class="dash-card__go">Ouvrir <i class="bi bi-arrow-right"></i></span>
+      </a>
+
+      <a class="dash-card" routerLink="/bus">
+        <i class="bi bi-bus-front"></i>
+        <h3>Bus TATA en direct</h3>
+        <p>Suivre les bus proches de votre position.</p>
+        <span class="dash-card__go">Ouvrir <i class="bi bi-arrow-right"></i></span>
+      </a>
+
+      <a class="dash-card" routerLink="/livraisons">
+        <i class="bi bi-box-seam"></i>
+        <h3>Livraison</h3>
+        <p>Colis, pharmacie, repas ou marché.</p>
+        <span class="dash-card__go">Ouvrir <i class="bi bi-arrow-right"></i></span>
+      </a>
+    </div>
+
+    @if (role() !== 'client') {
+      <h2 class="dash__sub">Votre activité</h2>
+      <div class="dash-grid dash-grid--pro">
+        @switch (role()) {
+          @case ('chauffeur') {
+            <a class="dash-card dash-card--ink" routerLink="/chauffeur/missions">
+              <i class="bi bi-lightning-charge-fill"></i>
+              <h3>Mode chauffeur</h3>
+              <p>Passer en ligne et recevoir les courses et livraisons autour de vous.</p>
+              <span class="dash-card__go">Ouvrir <i class="bi bi-arrow-right"></i></span>
+            </a>
+            <a class="dash-card dash-card--ink" routerLink="/chauffeur">
+              <i class="bi bi-speedometer2"></i>
+              <h3>Espace chauffeur</h3>
+              <p>Véhicules, tarifs au kilomètre, commission et revenus.</p>
+              <span class="dash-card__go">Ouvrir <i class="bi bi-arrow-right"></i></span>
+            </a>
+            <a class="dash-card dash-card--ink" routerLink="/trajets/publier">
+              <i class="bi bi-megaphone"></i>
+              <h3>Publier un trajet</h3>
+              <p>Proposer vos places libres entre deux villes.</p>
+              <span class="dash-card__go">Ouvrir <i class="bi bi-arrow-right"></i></span>
+            </a>
+          }
+          @case ('receveur_bus') {
+            <a class="dash-card dash-card--ink" routerLink="/bus/receveur">
+              <i class="bi bi-broadcast"></i>
+              <h3>Partager mon bus</h3>
+              <p>Créer votre ligne et diffuser la position du bus en direct.</p>
+              <span class="dash-card__go">Ouvrir <i class="bi bi-arrow-right"></i></span>
+            </a>
+          }
+          @case ('commercant') {
+            <a class="dash-card dash-card--ink" routerLink="/commerce">
+              <i class="bi bi-shop"></i>
+              <h3>Mon commerce</h3>
+              <p>Recevoir les commandes, envoyer vos devis, suivre les livraisons.</p>
+              <span class="dash-card__go">Ouvrir <i class="bi bi-arrow-right"></i></span>
+            </a>
+          }
+        }
+      </div>
+    }
+
+    <div class="dash__profile">
+      <div class="dash__profile-head">
+        <h3>Vos informations</h3>
+        <span class="dash__links"><a routerLink="/profil">Modifier mon profil</a> · <a routerLink="/historique">Historique</a> · <a routerLink="/mes-trajets">Mes réservations</a></span>
+      </div>
+      <dl>
+        <div><dt>Nom complet</dt><dd>{{ supabase.currentProfile()?.prenom }} {{ supabase.currentProfile()?.nom }}</dd></div>
+        <div><dt>Téléphone</dt><dd>{{ supabase.currentProfile()?.telephone || '—' }}</dd></div>
+        <div><dt>E-mail</dt><dd>{{ supabase.currentUser()?.email }}</dd></div>
+      </dl>
+    </div>
+  </div>
+</section>

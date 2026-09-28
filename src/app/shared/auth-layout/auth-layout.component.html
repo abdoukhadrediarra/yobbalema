@@ -1,0 +1,28 @@
+<div class="auth">
+  <aside class="auth__brand">
+    <a routerLink="/" class="auth__logo">
+      <span class="auth__logo-mark">Y</span> Yobbalema
+    </a>
+
+    <blockquote class="auth__quote">
+      « Ici, on négocie. » Le waxalé, c'est la possibilité de proposer votre prix sur
+      une course à la demande — une seule des raisons qui rendent Yobbalema différent.
+    </blockquote>
+
+    <ul class="auth__points">
+      <li><i class="bi bi-signpost-split"></i> Trajets interurbains</li>
+      <li><i class="bi bi-car-front"></i> Courses à la demande avec waxalé</li>
+      <li><i class="bi bi-bus-front"></i> Bus TATA en direct</li>
+      <li><i class="bi bi-box-seam"></i> Livraison, pharmacie et repas</li>
+    </ul>
+  </aside>
+
+  <main class="auth__panel">
+    <div class="auth__form-wrap">
+      <a routerLink="/" class="auth__back"><i class="bi bi-arrow-left"></i> Retour à l'accueil</a>
+      <h1>{{ titre }}</h1>
+      @if (sousTitre) { <p class="lede">{{ sousTitre }}</p> }
+      <ng-content></ng-content>
+    </div>
+  </main>
+</div>
