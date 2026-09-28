@@ -82,6 +82,82 @@ npm run build     # sortie dans dist/yobbalema-web/browser
 > runtime via les balises `<link>` de `src/index.html`. Vous pouvez remettre
 > `fonts: true` si votre environnement de build a accès à Internet.
 
+## Dépôt Git et hébergement (tests de géolocalisation à plusieurs)
+
+Ce dossier est déjà un dépôt Git (`git init` + premier commit faits). Le
+géolocalisation (position GPS, bus en direct, position du chauffeur) ne peut
+pas se tester correctement sur une seule machine fixe : il faut plusieurs
+testeurs, à plusieurs endroits réels, sur un lien **HTTPS** (les navigateurs
+interdisent l'API de géolocalisation en HTTP hors `localhost`). D'où l'intérêt
+d'un hébergement gratuit, séparé de votre machine.
+
+**Le backend (Supabase) est déjà hébergé dans le cloud** — rien à faire de ce
+côté. Il ne manque que le site Angular, aujourd'hui seulement lancé en local
+(`ng serve`).
+
+### 1. Créer le dépôt sur GitHub
+Sur github.com : **New repository** → nom `yobbalema` (public ou privé, les
+deux fonctionnent avec l'hébergeur ci-dessous) → **ne cochez aucune case**
+(pas de README, pas de .gitignore : ce dossier en a déjà) → **Create**.
+GitHub affiche alors les commandes ; depuis ce dossier :
+
+```bash
+git remote add origin https://github.com/<votre-compte>/yobbalema.git
+git push -u origin main
+```
+
+### 2. Renseigner les vraies valeurs avant de déployer
+Remplacez les valeurs de `src/environments/environment.prod.ts` (Project
+Settings > API dans Supabase), puis :
+
+```bash
+git add -A && git commit -m "Configuration de production" && git push
+```
+
+> La clé publique (`anon key`) est conçue par Supabase pour être visible
+> côté client : elle est protégée par les politiques RLS, pas par le secret.
+> Ne mettez en revanche **jamais** la clé `service_role` dans ces fichiers.
+
+### 3. Héberger sur Cloudflare Pages (recommandé, gratuit, sans carte bancaire)
+1. [dash.cloudflare.com](https://dash.cloudflare.com) → créer un compte gratuit.
+2. **Workers & Pages** → **Create** → **Pages** → **Connect to Git** → autorisez
+   GitHub → choisissez le dépôt `yobbalema`.
+3. Réglages de build :
+   - Framework preset : **Angular**
+   - Build command : `npm run build`
+   - Build output directory : `dist/yobbalema-web/browser`
+   - Variable d'environnement : `NODE_VERSION` = `20`
+4. **Save and Deploy**. Au bout de 1 à 2 minutes, le site est en ligne sur
+   `https://yobbalema.pages.dev` (HTTPS automatique).
+
+Chaque `git push` sur `main` redéploie automatiquement ; chaque autre branche
+ou pull request reçoit sa propre URL de prévisualisation — pratique pour
+tester un changement avant de le fusionner. `public/_redirects` est déjà en
+place pour que les routes Angular (`/courses`, `/bus`, etc.) fonctionnent
+après un rafraîchissement de page.
+
+**Alternatives** (mêmes réglages de build) : [Netlify](https://netlify.com)
+ou [Vercel](https://vercel.com) (`vercel.json` déjà fourni) — utile si
+Cloudflare Pages est mal desservi depuis certains lieux de test.
+
+### 4. Faire tester la géolocalisation à distance
+Donnez l'URL `https://yobbalema.pages.dev` à des testeurs dans des villes
+différentes (téléphone, navigateur Chrome ou Safari) : *Course à la
+demande*, *Mode chauffeur*, *Bus TATA* leur demanderont l'autorisation de
+localisation, avec leur position réelle plutôt que celle simulée en cliquant
+sur la carte.
+
+### Le mobile Flutter n'a pas besoin de ce type d'hébergement
+Une application Flutter compilée (APK / IPA) n'est pas un site à héberger :
+elle s'installe sur le téléphone et appelle le **même** backend Supabase déjà
+en ligne — aucune infrastructure supplémentaire à prévoir pour elle. Le
+prochain hébergement à envisager, plus tard, concernera sa **distribution**
+aux testeurs (Google Play Console, piste de test interne ; TestFlight pour
+iOS), pas son fonctionnement. En attendant, gardez ce dépôt en monorepo :
+quand le développement Flutter commencera, son code prendra place dans un
+dossier `mobile/` à la racine, à côté de `src/` et `supabase/`, sans toucher
+à l'existant.
+
 ## Design
 
 La palette et la typographie s'inspirent des « cars rapides » (bleu indigo /
@@ -92,8 +168,10 @@ jamais de glyphes générés.
 
 ## Prochaines étapes
 
-Comme convenu, la suite du développement porte sur l'application mobile
-Flutter (courses à la demande, réservation de trajets, suivi des bus,
-livraison), puis le branchement complet du site web sur les données réelles
-(recherche de trajets, tableau de bord chauffeur, etc.) au-delà de la vitrine
-et de l'authentification déjà fonctionnelles ici.
+Les quatre services (trajets, courses waxalé, bus, livraison), les paiements
+en ligne, le back-office et les notifications sont fonctionnels côté site et
+testés (voir `TESTS_MANUELS.md`). Restent, dans l'ordre envisagé :
+1. Tests de géolocalisation à plusieurs, sur le site hébergé (ci-dessus).
+2. Application mobile Flutter, réutilisant le même backend Supabase.
+3. Vrais paiements Wave / Orange Money en bac à sable (`PAIEMENTS.md`),
+   fournisseur SMS, relecture juridique des pages Conditions/Confidentialité.
